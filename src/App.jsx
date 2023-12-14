@@ -8,6 +8,68 @@ import studentsData from "./assets/students.json";
 
 function App() {
   const [students, setStudents] = useState(studentsData);
+  const [fullName, setfullName] = useState("");
+  const [image, setimage] = useState("");
+  const [phone, setphone] = useState("");
+  const [email, setemail] = useState("");
+  const [program, setprogram] = useState("");
+  const [graduationYear,setgraduationYear] = useState(2023);
+  const [graduated,setgraduated] = useState(false);
+
+  const handleFullNameChange = (event) => {
+    setfullName(event.target.value);
+  };
+
+ const handleImageChange =(event) =>{
+    setimage(event.target.value);
+ }
+
+const handlePhoneChange =(event) =>{
+  setphone(event.target.value)
+}
+
+const handleProgramChange =(event) =>{
+  setemail(event.target.value)
+}
+
+const handleEmailChange =(event) =>{
+  setprogram(event.target.value)
+}
+
+const handleGraduationYearChange=(event) =>{
+  setgraduationYear(event.target.value)
+}
+
+const handleGraduatedChange=(event) =>{
+  setgraduated(event.target.checked)
+}
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  // Create a new student object
+  const newStudent = {
+    fullName,
+    email,
+    phone,
+    program,
+    image,
+    graduationYear: parseInt(graduationYear), // Convert to number
+    graduated,
+  };
+
+  // Update the students array in the state
+  setStudents((prevStudents) => [...prevStudents, newStudent]);
+
+  // Clear form inputs after submission
+  setfullName("");
+  setimage("");
+  setphone("");
+  setemail("");
+  setprogram("");
+  setgraduationYear(2023);
+  setgraduated(false);
+};
 
 
   return (
@@ -15,34 +77,34 @@ function App() {
       <Navbar />
 
       {/* FORM */}
-      <form>
-        <span>Add a Student</span>
+      <form onSubmit={handleSubmit}>
+       
         <div>
           <label>
             Full Name
-            <input name="fullName" type="text" placeholder="Full Name" />
+            <input name="fullName" type="text" placeholder="Full Name"  onChange={handleFullNameChange}/>
           </label>
 
           <label>
             Profile Image
-            <input name="image" type="url" placeholder="Profile Image" />
+            <input name="image" type="url" placeholder="Profile Image"  onChange={handleImageChange}/>
           </label>
 
           <label>
             Phone
-            <input name="phone" type="tel" placeholder="Phone" />
+            <input name="phone" type="tel" placeholder="Phone" onChange={handlePhoneChange} />
           </label>
 
           <label>
             Email
-            <input name="email" type="email" placeholder="Email" />
+            <input name="email" type="email" placeholder="Email" onChange={handleEmailChange}/>
           </label>
         </div>
 
         <div>
           <label>
             Program
-            <select name="program">
+            <select name="program"  onChange={handleProgramChange}>
               <option value="">-- None --</option>
               <option value="Web Dev">Web Dev</option>
               <option value="UXUI">UXUI</option>
@@ -60,12 +122,13 @@ function App() {
               maxLength={4}
               min={2023}
               max={2030}
+              onChange={handleGraduationYearChange}
             />
           </label>
 
           <label>
             Graduated
-            <input name="graduated" type="checkbox" />
+            <input name="graduated" type="checkbox" onChange={handleGraduatedChange}/>
           </label>
 
           <button type="submit">Add Student</button>
